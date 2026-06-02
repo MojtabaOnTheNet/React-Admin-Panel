@@ -1,11 +1,21 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarTrigger,
+  /* SidebarFooter */
+  SidebarHeader,
+  useSidebar,
 } from "@/components/ui/sidebar"
-import { Home, Share2, ShoppingBag, ShoppingCart, User } from "lucide-react"
+import {
+  Command,
+  Home,
+  Share2,
+  ShoppingBag,
+  ShoppingCart,
+  User,
+} from "lucide-react"
 import type React from "react"
 import MainSidebarNavigation from "./MainSidebarNavigation"
+import { cn } from "@/lib/utils"
 
 export type Route = {
   title: string
@@ -106,19 +116,45 @@ const dashboardRoutes: Route[] = [
 ]
 
 const MainSidebar = () => {
-  //   const { state } = useSidebar()
-  //   const isCollapsed = state === "collapsed"
+  const { state } = useSidebar()
+  const isCollapsed = state === "collapsed"
   return (
     <>
       <Sidebar
-        /* variant="inset" */
+        variant="inset"
         collapsible="icon"
         dir="rtl"
         side="right"
+        className="pt-3"
       >
+        <SidebarHeader
+          className={cn(
+            "flex md:pt-3.5",
+            isCollapsed
+              ? "flex-row items-center justify-between gap-y-4 md:flex-col md:items-start md:justify-start"
+              : "flex-row items-center justify-start"
+          )}
+        >
+          <Command className="h-8 w-8" />
+          {!isCollapsed && <span className="font-extrabold">پنل ادمین</span>}
+        </SidebarHeader>
         <SidebarContent className="gap-4 px-2 py-4">
           <MainSidebarNavigation routes={dashboardRoutes} />
         </SidebarContent>
+        {/* <SidebarFooter
+          className={cn(
+            "flex md:pt-3.5",
+            isCollapsed
+              ? "flex-row items-center justify-between gap-y-4 md:flex-col md:items-start md:justify-start"
+              : "flex-row items-center justify-start"
+          )}
+        >
+          {!isCollapsed && (
+            <span className="font-light opacity-50">
+              ساخته شده توسط مجتبی علیزاده
+            </span>
+          )}
+        </SidebarFooter> */}
       </Sidebar>
     </>
   )
