@@ -1,8 +1,11 @@
 import {
   Sidebar,
   SidebarContent,
-  /* SidebarFooter */
+  SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
 import {
@@ -16,6 +19,7 @@ import {
 import type React from "react"
 import MainSidebarNavigation from "./MainSidebarNavigation"
 import { cn } from "@/lib/utils"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export type Route = {
   title: string
@@ -141,7 +145,7 @@ const MainSidebar = () => {
         <SidebarContent className="gap-4 px-2 py-4">
           <MainSidebarNavigation routes={dashboardRoutes} />
         </SidebarContent>
-        {/* <SidebarFooter
+        <SidebarFooter
           className={cn(
             "flex md:pt-3.5",
             isCollapsed
@@ -149,12 +153,25 @@ const MainSidebar = () => {
               : "flex-row items-center justify-start"
           )}
         >
-          {!isCollapsed && (
-            <span className="font-light opacity-50">
-              ساخته شده توسط مجتبی علیزاده
-            </span>
-          )}
-        </SidebarFooter> */}
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton size="lg">
+                <Avatar className="graysacel h-8 w-8 rounded-lg">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                {!isCollapsed && (
+                  <div className="grid flex-1 text-sm leading-tight">
+                    <span className="truncate font-medium">مجتبی علیزاده</span>
+                    <span className="truncate text-xs text-muted-foreground">
+                      09106234401
+                    </span>
+                  </div>
+                )}
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
       </Sidebar>
     </>
   )
