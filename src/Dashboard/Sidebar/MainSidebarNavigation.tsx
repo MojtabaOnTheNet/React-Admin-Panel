@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar"
 import type { Route } from "./MainSidebar"
 import { useState } from "react"
-import { Link } from "react-router"
+import { NavLink } from "react-router"
 import { cn } from "@/lib/utils"
 import { Collapsible } from "radix-ui"
 import { ChevronUp } from "lucide-react"
@@ -68,9 +68,9 @@ const MainSidebarNavigation = ({ routes }: { routes: Route[] }) => {
                           className="h-auto"
                         >
                           <SidebarMenuSubButton asChild>
-                            <Link to={`${subRoute.link}`}>
+                            <NavLink to={`${subRoute.link}`}>
                               {subRoute.title}
-                            </Link>
+                            </NavLink>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
@@ -80,7 +80,7 @@ const MainSidebarNavigation = ({ routes }: { routes: Route[] }) => {
               </Collapsible.Collapsible>
             ) : (
               <SidebarMenuButton asChild>
-                <Link
+                <NavLink
                   to={`${route.link}`}
                   className={cn(
                     "hover:bg-sidebar-muted flex w-full items-center rounded-lg pr-2 text-muted-foreground transition-colors hover:text-foreground",
@@ -93,7 +93,7 @@ const MainSidebarNavigation = ({ routes }: { routes: Route[] }) => {
                       {route.title}
                     </span>
                   )}
-                </Link>
+                </NavLink>
               </SidebarMenuButton>
             )}
           </SidebarMenuItem>

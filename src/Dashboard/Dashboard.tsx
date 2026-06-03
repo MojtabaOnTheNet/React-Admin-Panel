@@ -7,11 +7,25 @@ import MainSidebar from "./Sidebar/MainSidebar"
 import { useEffect, useState } from "react"
 import { TypingAnimation } from "@/components/ui/typing-animation"
 import Home from "./Home/Home"
-import { Route, Routes } from "react-router"
+import { Route, Routes, useLocation } from "react-router"
+import Categories from "./Categories/Categories"
+import { usePathTitle } from "@/hooks/usePathTitle"
+import Products from "./Products/Products"
+import Brands from "./Brands/Brands"
+import Guarantees from "./Guarantees/Guarantees"
+import Colors from "./Colors/Colors"
+import Discounts from "./Discounts/Discounts"
 
 const Dashboard = () => {
   const [clock, setClock] = useState<string>()
   const [weekDay, setWeekDay] = useState<string>()
+  const [state, dispatch] = usePathTitle()
+  const pathTitle = useLocation()
+
+  useEffect(() => {
+    console.log(pathTitle.pathname)
+    dispatch({ type: pathTitle.pathname })
+  }, [pathTitle])
 
   useEffect(() => {
     setInterval(() => {
@@ -42,7 +56,7 @@ const Dashboard = () => {
           <SidebarTrigger className="cursor-pointer" />
           <h1 className="text-5xl font-black">
             <TypingAnimation blinkCursor={true} pauseDelay={2000}>
-              خوش اومدی مجتبی!
+              {state}
             </TypingAnimation>
           </h1>
           <div className="w-55 text-center">
@@ -57,6 +71,12 @@ const Dashboard = () => {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/Categories" element={<Categories />} />
+            <Route path="/Categories" element={<Products />} />
+            <Route path="/Categories" element={<Brands />} />
+            <Route path="/Categories" element={<Guarantees />} />
+            <Route path="/Categories" element={<Colors />} />
+            <Route path="/Categories" element={<Discounts />} />
           </Routes>
         </main>
       </SidebarInset>

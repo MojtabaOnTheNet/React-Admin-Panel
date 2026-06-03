@@ -35,7 +35,7 @@ const dashboardRoutes: Route[] = [
   {
     title: "خانه",
     icon: <Home className="size-4" />,
-    link: "#",
+    link: "/",
   },
   {
     title: "فروشگاه",
@@ -43,27 +43,27 @@ const dashboardRoutes: Route[] = [
     subs: [
       {
         title: "مدیریت گروه محصول",
-        link: "#",
+        link: "/Categories",
       },
       {
         title: "مدیریت محصول",
-        link: "#",
+        link: "/Products",
       },
       {
         title: "مدیریت برندها",
-        link: "#",
+        link: "/Brands",
       },
       {
         title: "مدیریت گارانتی‌ها",
-        link: "#",
+        link: "/Guarantees",
       },
       {
         title: "مدیریت رنگ‌ها",
-        link: "#",
+        link: "Colors",
       },
       {
         title: "مدیریت تخفیف‌ها",
-        link: "#",
+        link: "Discounts",
       },
     ],
   },
