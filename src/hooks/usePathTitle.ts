@@ -3,22 +3,22 @@ import { useReducer } from "react"
 export const usePathTitle = () => {
   const reducer = (state: string, action: { type: string }) => {
     switch (action.type) {
-      case "/Categories":
+      case "/shop/categories":
         state = "مدیریت گروه محصولات"
         return state
-      case "/Products":
+      case "/shop/products":
         state = "مدیریت محصولات"
         return state
-      case "/Brands":
+      case "/shop/brands":
         state = "مدیریت برندها"
         return state
-      case "/Guarantees":
+      case "/shop/guarantees":
         state = "مدیریت گارانتی‌ها"
         return state
-      case "/Colors":
+      case "/shop/colors":
         state = "مدیریت رنگ‌ها"
         return state
-      case "/Discounts":
+      case "/shop/discounts":
         state = "مدیریت تخفیف‌ها"
         return state
       case "/Carts":

@@ -71,12 +71,14 @@ const Dashboard = () => {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/Categories" element={<Categories />} />
-            <Route path="/Categories" element={<Products />} />
-            <Route path="/Categories" element={<Brands />} />
-            <Route path="/Categories" element={<Guarantees />} />
-            <Route path="/Categories" element={<Colors />} />
-            <Route path="/Categories" element={<Discounts />} />
+            <Route path="/shop">
+              <Route path="categories" element={<Categories />} />
+              <Route path="products" element={<Products />} />
+              <Route path="brands" element={<Brands />} />
+              <Route path="guarantees" element={<Guarantees />} />
+              <Route path="colors" element={<Colors />} />
+              <Route path="discounts" element={<Discounts />} />
+            </Route>
           </Routes>
         </main>
       </SidebarInset>

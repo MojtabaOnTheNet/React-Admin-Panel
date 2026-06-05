@@ -43,27 +43,27 @@ const dashboardRoutes: Route[] = [
     subs: [
       {
         title: "مدیریت گروه محصول",
-        link: "/Categories",
+        link: "shop/categories",
       },
       {
         title: "مدیریت محصول",
-        link: "/Products",
+        link: "shop/products",
       },
       {
         title: "مدیریت برندها",
-        link: "/Brands",
+        link: "shop/brands",
       },
       {
         title: "مدیریت گارانتی‌ها",
-        link: "/Guarantees",
+        link: "shop/guarantees",
       },
       {
         title: "مدیریت رنگ‌ها",
-        link: "Colors",
+        link: "shop/colors",
       },
       {
         title: "مدیریت تخفیف‌ها",
-        link: "Discounts",
+        link: "shop/discounts",
       },
     ],
   },
