@@ -68,7 +68,7 @@ const Dashboard = () => {
             </h1>
           </div>
         </header>
-        <main>
+        <main className="mx-5">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shop">
