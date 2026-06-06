@@ -21,29 +21,29 @@ export const usePathTitle = () => {
       case "/shop/discounts":
         state = "مدیریت تخفیف‌ها"
         return state
-      case "/Carts":
+      case "/carts":
         state = "مدیریت سبدها"
         return state
-      case "/Orders":
+      case "/orders":
         state = "مدیریت سفارشات"
         return state
-      case "/Send-Type":
+      case "/delivery":
         state = "مدیریت نحوه ارسال"
         return state
-      case "/Users":
+      case "/users":
         state = "مشاهده کاربران"
         return state
-      case "/Roles":
+      case "/roles":
         state = "مشاهده نقش‌ها"
         return state
-      case "/َAccess":
+      case "/access":
         state = "مشاهده مجوزها"
         return state
-      case "/Questions":
+      case "/questions":
         state = "سوال‌ها"
         return state
-      case "/Opinions":
-        state = "نظرها"
+      case "/comments":
+        state = "نظرات"
         return state
       default:
         return "خوش اومدی مجتبی!"

@@ -15,6 +15,14 @@ import Brands from "./Brands/Brands"
 import Guarantees from "./Guarantees/Guarantees"
 import Colors from "./Colors/Colors"
 import Discounts from "./Discounts/Discounts"
+import Carts from "./Carts/Carts"
+import Orders from "./Orders/Orders"
+import Delivery from "./Delivery/Delivery"
+import Roles from "./Roles/Roles"
+import Access from "./Access/Access"
+import Comments from "./Comments/Comments"
+import Questions from "./Questions/Questions"
+import Users from "./Users/Users"
 
 const Dashboard = () => {
   const [clock, setClock] = useState<string>()
@@ -79,6 +87,14 @@ const Dashboard = () => {
               <Route path="colors" element={<Colors />} />
               <Route path="discounts" element={<Discounts />} />
             </Route>
+            <Route path="/carts" element={<Carts />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/delivery" element={<Delivery />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/roles" element={<Roles />} />
+            <Route path="/access" element={<Access />} />
+            <Route path="/questions" element={<Questions />} />
+            <Route path="/comments" element={<Comments />} />
           </Routes>
         </main>
       </SidebarInset>

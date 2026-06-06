@@ -73,15 +73,15 @@ const dashboardRoutes: Route[] = [
     subs: [
       {
         title: "مدیریت سبدها",
-        link: "#",
+        link: "carts",
       },
       {
         title: "مدیریت سفارشات",
-        link: "#",
+        link: "orders",
       },
       {
         title: "مدیریت نحوه ارسال",
-        link: "#",
+        link: "delivery",
       },
     ],
   },
@@ -91,15 +91,15 @@ const dashboardRoutes: Route[] = [
     subs: [
       {
         title: "مشاهده کاربران",
-        link: "#",
+        link: "users",
       },
       {
         title: "نقش‌ها",
-        link: "#",
+        link: "roles",
       },
       {
         title: "مجوزها",
-        link: "#",
+        link: "access",
       },
     ],
   },
@@ -109,11 +109,11 @@ const dashboardRoutes: Route[] = [
     subs: [
       {
         title: "سوال‌ها",
-        link: "#",
+        link: "questions",
       },
       {
         title: "نظرات",
-        link: "#",
+        link: "comments",
       },
     ],
   },
