@@ -20,8 +20,8 @@ const Products = () => {
       category: "دسته شماره فلان",
       title: "محصول شماره فلان",
       price: "20,000 تومان",
-      remaining: "موجودی",
-      likes: "تعداد لایک",
+      remaining: "کم",
+      likes: "10",
       status: "فعال",
       options: (
         <DropdownMenu dir="rtl">
