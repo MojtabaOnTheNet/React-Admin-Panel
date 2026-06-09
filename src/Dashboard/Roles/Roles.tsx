@@ -1,5 +1,4 @@
 import ChangeForm from "./ChangeForm"
-import SearchInput from "./SearchInput"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -60,13 +59,13 @@ const Roles = () => {
   ]
 
   return (
-    <div className="mt-10 flex w-full flex-col items-center justify-center gap-7">
-      <div className="flex w-full items-center justify-between">
-        <SearchInput />
-        <ChangeForm />
-      </div>
-      <TableCard tableData={tableData} tableDataHeader={tableDataHeader} />
-    </div>
+    <TableCard
+      tableData={tableData}
+      tableDataHeader={tableDataHeader}
+      searchTarget="title"
+    >
+      <ChangeForm />
+    </TableCard>
   )
 }
 

@@ -1,3 +1,5 @@
+import * as React from "react"
+
 import {
   Table,
   TableBody,
@@ -18,22 +20,30 @@ import {
 } from "@/components/ui/pagination"
 
 import {
+  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
+  type ColumnFiltersState,
 } from "@tanstack/react-table"
 
 import type { tableDataHeaderType, tableDataType } from "@/lib/types"
 import { useMemo, useState } from "react"
+import SearchInput from "./SearchInput"
 
 const TableCard = ({
   tableData,
   tableDataHeader,
+  children,
+  searchTarget,
 }: {
   tableData: tableDataType
   tableDataHeader: tableDataHeaderType
+  children?: React.ReactNode
+  searchTarget: string
 }) => {
+  // Turn tableDataHeader into TabSatck compatible headers
   const columns = useMemo(
     () =>
       tableDataHeader.map((header) => ({
@@ -48,30 +58,56 @@ const TableCard = ({
     pageSize: 2,
   })
 
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
+
   const table = useReactTable({
     data: tableData,
     columns,
     state: {
       pagination,
+      columnFilters,
     },
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   })
 
   return (
-    <>
+    <div className="mt-10 flex w-full flex-col items-center justify-center gap-7">
+      <div className="flex w-full items-center justify-between">
+        <SearchInput
+          value={
+            (table.getColumn(searchTarget)?.getFilterValue() as string) ?? ""
+          }
+          handleChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            table.getColumn(searchTarget)?.setFilterValue(event.target.value)
+          }
+        />
+        {children}
+      </div>
       <Card className="w-full">
         <Table className="overflow-hidden text-lg">
           <TableHeader>
-            <TableRow>
-              {tableDataHeader.map((header) => (
-                <TableHead key={header.field} className="w-10 text-center">
-                  {header.title}
-                </TableHead>
-              ))}
-            </TableRow>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id} className="w-10 text-center">
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
@@ -136,7 +172,7 @@ const TableCard = ({
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    </>
+    </div>
   )
 }
 

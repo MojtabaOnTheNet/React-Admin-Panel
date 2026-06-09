@@ -4,7 +4,13 @@ import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-const SearchInput = () => (
+const SearchInput = ({
+  value,
+  handleChange,
+}: {
+  value: string
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void | undefined
+}) => (
   <div className="w-full max-w-sm space-y-2">
     <Label className="absolute -translate-y-8 text-lg" htmlFor="search-input">
       جستجو
@@ -16,6 +22,8 @@ const SearchInput = () => (
         id="search-input"
         placeholder="جستجو..."
         type="search"
+        value={value}
+        onChange={handleChange}
       />
     </div>
   </div>
