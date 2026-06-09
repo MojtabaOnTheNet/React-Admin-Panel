@@ -129,49 +129,53 @@ const TableCard = ({
           </TableBody>
         </Table>
       </Card>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => table.previousPage()}
-              className={
-                !table.getCanPreviousPage()
-                  ? "pointer-events-none opacity-50"
-                  : ""
-              }
-              href="#"
-              text="قبلی"
-            />
-          </PaginationItem>
-          {Array.from({ length: table.getPageCount() }).map((_, index) => {
-            const pageNumber = index + 1
-            const isActive = table.getState().pagination.pageIndex === index
+      {table.getPageCount() != 1 ? (
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => table.previousPage()}
+                className={
+                  !table.getCanPreviousPage()
+                    ? "pointer-events-none opacity-50"
+                    : ""
+                }
+                href="#"
+                text="قبلی"
+              />
+            </PaginationItem>
+            {Array.from({ length: table.getPageCount() }).map((_, index) => {
+              const pageNumber = index + 1
+              const isActive = table.getState().pagination.pageIndex === index
 
-            return (
-              <PaginationItem>
-                <PaginationLink
-                  href="#"
-                  isActive={isActive}
-                  key={index}
-                  onClick={() => table.setPageIndex(index)}
-                >
-                  {pageNumber}
-                </PaginationLink>
-              </PaginationItem>
-            )
-          })}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => table.nextPage()}
-              className={
-                !table.getCanNextPage() ? "pointer-events-none opacity-50" : ""
-              }
-              href="#"
-              text="بعدی"
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+              return (
+                <PaginationItem>
+                  <PaginationLink
+                    href="#"
+                    isActive={isActive}
+                    key={index}
+                    onClick={() => table.setPageIndex(index)}
+                  >
+                    {pageNumber}
+                  </PaginationLink>
+                </PaginationItem>
+              )
+            })}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => table.nextPage()}
+                className={
+                  !table.getCanNextPage()
+                    ? "pointer-events-none opacity-50"
+                    : ""
+                }
+                href="#"
+                text="بعدی"
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      ) : null}
     </div>
   )
 }
