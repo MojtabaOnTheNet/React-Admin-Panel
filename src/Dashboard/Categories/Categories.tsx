@@ -1,15 +1,72 @@
-import CategoriesTableCard from "./CategoriesTableCard"
+import type { tableDataHeaderType, tableDataType } from "@/lib/types"
 import ChangeForm from "./ChangeForm"
 import SearchInput from "./SearchInput"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { PencilIcon, PlusIcon, ShareIcon, TrashIcon } from "lucide-react"
+import TableCard from "@/components/ui/TableCard"
 
 const Categories = () => {
+  const tableData: tableDataType = [
+    {
+      id: "1",
+      title: "دسته شماره فلان",
+      status: "فعال",
+      options: (
+        <DropdownMenu dir="rtl">
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost">...</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <PlusIcon />
+                اضافه
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <PencilIcon />
+                ویرایش
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <ShareIcon />
+                اشتراک‌گذاری
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem variant="destructive">
+                <TrashIcon />
+                حذف
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
+  ]
+
+  const tableDataHeader: tableDataHeaderType = [
+    { field: "id", title: "#" },
+    { field: "title", title: "عنوان" },
+    { field: "status", title: "وضعیت" },
+    { field: "options", title: "عملیات" },
+  ]
+
   return (
     <div className="mt-10 flex w-full flex-col items-center justify-center gap-7">
       <div className="flex w-full items-center justify-between">
         <SearchInput />
         <ChangeForm />
       </div>
-      <CategoriesTableCard />
+      <TableCard tableData={tableData} tableDataHeader={tableDataHeader} />
+      {/* <CategoriesTableCard /> */}
     </div>
   )
 }

@@ -9,7 +9,7 @@ import {
 import { Card, CardTitle } from "@/components/ui/card"
 import { X } from "lucide-react"
 
-const TableCard = () => {
+const HomeTableCard = () => {
   return (
     <Card className="h-138.5 w-full">
       <CardTitle className="px-6">محصولات رو به اتمام</CardTitle>
@@ -75,4 +75,4 @@ const TableCard = () => {
   )
 }
 
-export default TableCard
+export default HomeTableCard
