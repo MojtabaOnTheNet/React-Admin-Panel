@@ -43,6 +43,7 @@ const Dashboard = () => {
             <Route path="/access" element={<Access />} />
             <Route path="/questions" element={<Questions />} />
             <Route path="/comments" element={<Comments />} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </main>
       </SidebarInset>

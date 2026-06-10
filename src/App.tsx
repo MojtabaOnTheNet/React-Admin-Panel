@@ -1,10 +1,12 @@
 import { BrowserRouter } from "react-router"
-import Dashboard from "./Dashboard/Dashboard"
+// import Dashboard from "./Dashboard/Dashboard"
+import Auth from "./Auth/Auth"
 
 export function App() {
   return (
     <BrowserRouter>
-      <Dashboard />
+      {/* <Dashboard /> */}
+      <Auth />
     </BrowserRouter>
   )
 }
