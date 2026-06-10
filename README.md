@@ -15,7 +15,6 @@ A clean, scalable, and production-ready admin panel featuring modern UI patterns
 ![React](https://img.shields.io/badge/React-18+-61DAFB?logo=react&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38BDF8?logo=tailwindcss&logoColor=white)
 ![Shadcn UI](https://img.shields.io/badge/Shadcn/UI-Latest-black)
-![Responsive](https://img.shields.io/badge/Responsive-Yes-success)
 ![Dark Mode](https://img.shields.io/badge/Dark%20Theme-Enabled-blueviolet)
 
 </div>
@@ -63,13 +62,6 @@ Built with scalability and maintainability in mind, the project follows modern f
 - Consistent design system
 - Accessible UI components
 - Professional admin experience
-
-### 📱 Fully Responsive
-
-- Mobile-first approach
-- Tablet optimized
-- Desktop ready
-- Flexible layouts
 
 ### 🧩 Reusable Components
 
@@ -124,10 +116,6 @@ Powered by Shadcn/UI components:
 src/
 │
 ├── components/
-│   ├── ui/
-│   ├── charts/
-│   ├── dashboard/
-│   └── shared/
 │
 ├── pages/
 │
@@ -136,8 +124,6 @@ src/
 ├── hooks/
 │
 ├── lib/
-│
-├── data/
 │
 ├── assets/
 │
@@ -208,18 +194,6 @@ The dashboard is designed around a modern dark interface that offers:
 - Reduced eye strain
 - Professional appearance
 - Improved focus on analytics and data
-
----
-
-## 📱 Responsive Experience
-
-| Device             | Supported |
-| ------------------ | --------- |
-| Mobile             | ✅        |
-| Tablet             | ✅        |
-| Laptop             | ✅        |
-| Desktop            | ✅        |
-| Ultra-Wide Screens | ✅        |
 
 ---
 
