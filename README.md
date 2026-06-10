@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="./demo/dashboard-preview.png" alt="React Admin Panel Preview" width="100%" />
+<img src="./demo/dashboard-preview.jpg" alt="React Admin Panel Preview" width="100%" />
 
 <br />
 
@@ -82,7 +82,7 @@ Powered by Shadcn/UI components:
 
 <div align="center">
 
-<img src="./demo/dashboard-preview.png" alt="Dashboard Screenshot" />
+<img src="./demo/dashboard-preview.jpg" alt="Dashboard Screenshot" />
 
 </div>
 
