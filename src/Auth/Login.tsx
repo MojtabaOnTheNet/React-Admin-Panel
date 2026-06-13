@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/field"
 import { Switch } from "@/components/ui/switch"
 import axios from "axios"
+import { useNavigate } from "react-router"
+import { useState } from "react"
+import { Spinner } from "@/components/ui/spinner"
 
 const formSchema = z.object({
   phone: z.string().regex(/^\d{11}$/, {
@@ -30,6 +33,8 @@ const formSchema = z.object({
 })
 
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
@@ -42,6 +47,7 @@ const Login = () => {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
+      setIsLoading(true)
       const response = await axios.post(
         "https://ecomadminapi.azhadev.ir/api/auth/login",
         {
@@ -49,7 +55,11 @@ const Login = () => {
           remember: data.remember ? 1 : 0,
         }
       )
-      console.log(response.data)
+      if (response.status == 200) {
+        setIsLoading(false)
+        localStorage.setItem("loginToken", JSON.stringify(response.data.token))
+        navigate("/")
+      }
     } catch (error: any) {
       console.log(error.message)
     }
@@ -131,7 +141,7 @@ const Login = () => {
           ریست
         </Button>
         <Button type="submit" className="w-full" form="form-rhf">
-          ورود
+          {isLoading ? <Spinner /> : "ورود"}
         </Button>
       </CardFooter>
     </Card>
