@@ -11,7 +11,6 @@ const Header = () => {
   const pathTitle = useLocation()
 
   useEffect(() => {
-    console.log(pathTitle.pathname)
     dispatch({ type: pathTitle.pathname })
   }, [pathTitle])
 

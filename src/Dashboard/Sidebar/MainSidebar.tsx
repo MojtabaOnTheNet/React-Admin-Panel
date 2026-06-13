@@ -31,8 +31,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import axios from "axios"
 import { useNavigate } from "react-router"
+import { logoutService } from "@/services/auth"
 
 export type Route = {
   title: string
@@ -138,17 +138,8 @@ const MainSidebar = () => {
   const navigate = useNavigate()
 
   const handleLogOut = async () => {
-    const loginToken = JSON.parse(localStorage.getItem("loginToken")!)
     try {
-      const response = await axios.get(
-        "https://ecomadminapi.azhadev.ir/api/auth/logout",
-        {
-          headers: {
-            Authorization: `Bearer ${loginToken}`,
-          },
-        }
-      )
-      console.log(response.data)
+      const response = await logoutService()
 
       if (response.status == 200) {
         localStorage.removeItem("loginToken")
@@ -192,39 +183,43 @@ const MainSidebar = () => {
         >
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="lg">
-                <Avatar className="graysacel h-8 w-8 rounded-lg">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                {!isCollapsed && (
-                  <div className="relative grid flex-1 text-sm leading-tight">
-                    <span className="truncate font-medium">مجتبی علیزاده</span>
-                    <span className="truncate text-xs text-muted-foreground">
-                      09106234401
-                    </span>
-                    <span className="absolute -left-3">
-                      <DropdownMenu dir="rtl">
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost">
-                            <EllipsisVertical />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuGroup>
-                            <DropdownMenuItem
-                              variant="destructive"
-                              onClick={handleLogOut}
-                            >
-                              <LogOutIcon />
-                              خروج از حساب کاربری
-                            </DropdownMenuItem>
-                          </DropdownMenuGroup>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </span>
-                  </div>
-                )}
+              <SidebarMenuButton size="lg" asChild>
+                <div>
+                  <Avatar className="graysacel h-8 w-8 rounded-lg">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  {!isCollapsed && (
+                    <div className="relative grid flex-1 text-sm leading-tight">
+                      <span className="truncate font-medium">
+                        مجتبی علیزاده
+                      </span>
+                      <span className="truncate text-xs text-muted-foreground">
+                        09106234401
+                      </span>
+                      <span className="absolute -left-3">
+                        <DropdownMenu dir="rtl">
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost">
+                              <EllipsisVertical />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                              <DropdownMenuItem
+                                variant="destructive"
+                                onClick={handleLogOut}
+                              >
+                                <LogOutIcon />
+                                خروج از حساب کاربری
+                              </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </span>
+                    </div>
+                  )}
+                </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

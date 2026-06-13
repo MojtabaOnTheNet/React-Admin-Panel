@@ -19,11 +19,11 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Switch } from "@/components/ui/switch"
-import axios from "axios"
 import { useNavigate } from "react-router"
 import { useState } from "react"
 import { Spinner } from "@/components/ui/spinner"
 import { Eye, EyeOff } from "lucide-react"
+import { loginService } from "@/services/auth"
 
 const formSchema = z.object({
   phone: z.string().regex(/^\d{11}$/, {
@@ -33,10 +33,12 @@ const formSchema = z.object({
   remember: z.boolean().optional(),
 })
 
+export type loginData = z.infer<typeof formSchema>
+
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<loginData>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
     defaultValues: {
@@ -46,15 +48,9 @@ const Login = () => {
     },
   })
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
+  const onSubmit = async (data: loginData) => {
     try {
-      const response = await axios.post(
-        "https://ecomadminapi.azhadev.ir/api/auth/login",
-        {
-          ...data,
-          remember: data.remember ? 1 : 0,
-        }
-      )
+      const response = await loginService(data)
       if (response.status == 200) {
         localStorage.setItem("loginToken", JSON.stringify(response.data.token))
         navigate("/")

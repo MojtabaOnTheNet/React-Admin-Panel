@@ -1,4 +1,4 @@
-import axios from "axios"
+import { getUserService } from "@/services/auth"
 import { useEffect, useState } from "react"
 
 export const useAuth = () => {
@@ -9,14 +9,7 @@ export const useAuth = () => {
     if (loginToken) {
       ;(async function () {
         try {
-          const response = await axios.get(
-            "https://ecomadminapi.azhadev.ir/api/auth/user",
-            {
-              headers: {
-                Authorization: `Bearer ${loginToken}`,
-              },
-            }
-          )
+          const response = await getUserService()
           setIsLogin(response.status == 200 ? true : false)
           setIsLoading(false)
         } catch (error) {
