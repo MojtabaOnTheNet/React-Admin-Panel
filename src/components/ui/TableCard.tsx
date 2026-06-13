@@ -31,6 +31,8 @@ import {
 import type { tableDataHeaderType, tableDataType } from "@/lib/types"
 import { useMemo, useState } from "react"
 import SearchInput from "./SearchInput"
+import { Skeleton } from "./skeleton"
+import { cn } from "@/lib/utils"
 
 const TableCard = ({
   tableData,
@@ -110,26 +112,43 @@ const TableCard = ({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell, i) => (
-                  <TableCell
-                    key={cell.id}
-                    className={
-                      i == 0
-                        ? "w-10 text-center font-medium"
-                        : "w-30 text-center"
-                    }
-                  >
-                    {cell.getValue() as React.ReactNode}
-                  </TableCell>
+            {tableData.length
+              ? table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell, i) => (
+                      <TableCell
+                        key={cell.id}
+                        className={
+                          i == 0
+                            ? "w-10 text-center font-medium"
+                            : "w-30 text-center"
+                        }
+                      >
+                        {cell.getValue() as React.ReactNode}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              : Array.from({ length: 3 }).map((_, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {Array.from({ length: table.getAllColumns().length }).map(
+                      (_, cellIndex) => (
+                        <TableCell key={cellIndex + "_" + rowIndex}>
+                          <Skeleton
+                            className={cn(
+                              "mx-auto h-5",
+                              cellIndex === 0 ? "w-10" : "w-30"
+                            )}
+                          />
+                        </TableCell>
+                      )
+                    )}
+                  </TableRow>
                 ))}
-              </TableRow>
-            ))}
           </TableBody>
         </Table>
       </Card>
-      {table.getPageCount() != 1 ? (
+      {table.getPageCount() && tableData.length != 1 ? (
         <Pagination>
           <PaginationContent>
             <PaginationItem>

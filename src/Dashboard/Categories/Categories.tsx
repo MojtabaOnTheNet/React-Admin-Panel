@@ -11,13 +11,50 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { PencilIcon, PlusIcon, ShareIcon, TrashIcon } from "lucide-react"
 import TableCard from "@/components/ui/TableCard"
+import { useEffect, useState } from "react"
+import { getCategoriesService } from "@/services/category"
 
 const Categories = () => {
-  const tableData: tableDataType = [
-    {
-      id: "1",
-      title: "دسته شماره فلان",
-      status: "فعال",
+  type categoryDataType = {
+    id: number
+    title: string
+    is_active: number
+    show_in_menu: number
+  }
+
+  const [data, setData] = useState([])
+
+  const handleGetCategories = async () => {
+    try {
+      const response = await getCategoriesService()
+      if (response.status == 200) {
+        setData(response.data.data)
+      } else {
+        alert("Oh No! " + response.data.message)
+      }
+    } catch (error) {
+      alert("Something went wrong! " + error)
+    }
+  }
+
+  const tableData: tableDataType = data.map((category: categoryDataType) => {
+    return {
+      id: category.id,
+      title: category.title,
+      status: (
+        <span
+          className={category.show_in_menu ? "text-green-400" : "text-red-400"}
+        >
+          {category.show_in_menu ? "فعال" : "غبرفعال"}
+        </span>
+      ),
+      showInMenu: (
+        <span
+          className={category.show_in_menu ? "text-green-400" : "text-red-400"}
+        >
+          {category.show_in_menu ? "هست" : "نیست"}
+        </span>
+      ),
       options: (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -35,7 +72,7 @@ const Categories = () => {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <ShareIcon />
-                اشتراک‌گذاری
+                زیر مجموعه‌ها
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -48,15 +85,20 @@ const Categories = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       ),
-    },
-  ]
+    }
+  })
 
   const tableDataHeader: tableDataHeaderType = [
     { field: "id", title: "#" },
     { field: "title", title: "عنوان" },
     { field: "status", title: "وضعیت" },
+    { field: "showInMenu", title: "نمایش در منو" },
     { field: "options", title: "عملیات" },
   ]
+
+  useEffect(() => {
+    handleGetCategories()
+  }, [])
 
   return (
     <TableCard
