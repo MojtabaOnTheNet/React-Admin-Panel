@@ -23,6 +23,7 @@ import axios from "axios"
 import { useNavigate } from "react-router"
 import { useState } from "react"
 import { Spinner } from "@/components/ui/spinner"
+import { Eye, EyeOff } from "lucide-react"
 
 const formSchema = z.object({
   phone: z.string().regex(/^\d{11}$/, {
@@ -33,7 +34,7 @@ const formSchema = z.object({
 })
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,7 +48,6 @@ const Login = () => {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      setIsLoading(true)
       const response = await axios.post(
         "https://ecomadminapi.azhadev.ir/api/auth/login",
         {
@@ -56,9 +56,17 @@ const Login = () => {
         }
       )
       if (response.status == 200) {
-        setIsLoading(false)
         localStorage.setItem("loginToken", JSON.stringify(response.data.token))
         navigate("/")
+      } else {
+        form.setError("phone", {
+          type: "manual",
+          message: response.data.message,
+        })
+        form.setError("password", {
+          type: "manual",
+          message: response.data.message,
+        })
       }
     } catch (error: any) {
       console.log(error.message)
@@ -103,13 +111,28 @@ const Login = () => {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="form-rhf-password">رمز عبور</FieldLabel>
-                  <Input
-                    {...field}
-                    id="form-rhf-password"
-                    aria-invalid={fieldState.invalid}
-                    autoComplete="off"
-                    type="password"
-                  />
+                  <div className="relative">
+                    <Input
+                      {...field}
+                      id="form-rhf-password"
+                      aria-invalid={fieldState.invalid}
+                      autoComplete="off"
+                      type={showPassword ? "text" : "password"}
+                    />
+                    <Button
+                      className="absolute top-0 left-0 h-full px-3 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                      size="icon"
+                      type="button"
+                      variant="ghost"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </Button>
+                  </div>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -140,8 +163,13 @@ const Login = () => {
         <Button type="submit" className="w-full" onClick={() => form.reset()}>
           ریست
         </Button>
-        <Button type="submit" className="w-full" form="form-rhf">
-          {isLoading ? <Spinner /> : "ورود"}
+        <Button
+          disabled={form.formState.isSubmitting}
+          type="submit"
+          className="w-full"
+          form="form-rhf"
+        >
+          {form.formState.isSubmitting ? <Spinner /> : "ورود"}
         </Button>
       </CardFooter>
     </Card>

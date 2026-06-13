@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/sidebar"
 import {
   Command,
+  EllipsisVertical,
   Home,
+  LogOutIcon,
   Share2,
   ShoppingBag,
   ShoppingCart,
@@ -20,6 +22,17 @@ import type React from "react"
 import MainSidebarNavigation from "./MainSidebarNavigation"
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import axios from "axios"
+import { useNavigate } from "react-router"
 
 export type Route = {
   title: string
@@ -122,6 +135,30 @@ const dashboardRoutes: Route[] = [
 const MainSidebar = () => {
   const { state } = useSidebar()
   const isCollapsed = state === "collapsed"
+  const navigate = useNavigate()
+
+  const handleLogOut = async () => {
+    const loginToken = JSON.parse(localStorage.getItem("loginToken")!)
+    try {
+      const response = await axios.get(
+        "https://ecomadminapi.azhadev.ir/api/auth/logout",
+        {
+          headers: {
+            Authorization: `Bearer ${loginToken}`,
+          },
+        }
+      )
+      console.log(response.data)
+
+      if (response.status == 200) {
+        localStorage.removeItem("loginToken")
+        navigate("/auth/login")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <Sidebar
@@ -161,10 +198,30 @@ const MainSidebar = () => {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 {!isCollapsed && (
-                  <div className="grid flex-1 text-sm leading-tight">
+                  <div className="relative grid flex-1 text-sm leading-tight">
                     <span className="truncate font-medium">مجتبی علیزاده</span>
                     <span className="truncate text-xs text-muted-foreground">
                       09106234401
+                    </span>
+                    <span className="absolute -left-3">
+                      <DropdownMenu dir="rtl">
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost">
+                            <EllipsisVertical />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuGroup>
+                            <DropdownMenuItem
+                              variant="destructive"
+                              onClick={handleLogOut}
+                            >
+                              <LogOutIcon />
+                              خروج از حساب کاربری
+                            </DropdownMenuItem>
+                          </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </span>
                   </div>
                 )}
