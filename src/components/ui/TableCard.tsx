@@ -89,7 +89,7 @@ const TableCard = ({
             table.getColumn(searchTarget)?.setFilterValue(event.target.value)
           }
         />
-        {children}
+        <div className="flex items-center justify-center gap-2">{children}</div>
       </div>
       <Card className="w-full">
         <Table className="overflow-hidden text-lg">
@@ -148,7 +148,7 @@ const TableCard = ({
           </TableBody>
         </Table>
       </Card>
-      {table.getPageCount() && tableData.length != 1 ? (
+      {table.getPageCount() && tableData.length >= 2 ? (
         <Pagination>
           <PaginationContent>
             <PaginationItem>

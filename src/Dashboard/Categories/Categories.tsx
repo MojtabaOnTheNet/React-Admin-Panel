@@ -13,10 +13,16 @@ import { PencilIcon, PlusIcon, ShareIcon, TrashIcon } from "lucide-react"
 import TableCard from "@/components/ui/TableCard"
 import { useEffect, useState } from "react"
 import { getCategoriesService } from "@/services/category"
+import { useNavigate, useParams } from "react-router"
+import { dateToPersian } from "@/lib/utils"
 
 const Categories = () => {
+  const params = useParams()
+  const navigate = useNavigate()
   type categoryDataType = {
     id: number
+    parent_id: number
+    created_at: string
     title: string
     is_active: number
     show_in_menu: number
@@ -24,9 +30,9 @@ const Categories = () => {
 
   const [data, setData] = useState([])
 
-  const handleGetCategories = async () => {
+  const handleGetCategories = async (categoryId?: string) => {
     try {
-      const response = await getCategoriesService()
+      const response = await getCategoriesService(categoryId)
       if (response.status == 200) {
         setData(response.data.data)
       } else {
@@ -55,10 +61,13 @@ const Categories = () => {
           {category.show_in_menu ? "هست" : "نیست"}
         </span>
       ),
+      date: dateToPersian(category.created_at),
       options: (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost">...</Button>
+            <Button variant="ghost" className="focus:border-0">
+              ...
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuGroup>
@@ -70,10 +79,17 @@ const Categories = () => {
                 <PencilIcon />
                 ویرایش
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <ShareIcon />
-                زیر مجموعه‌ها
-              </DropdownMenuItem>
+              {category.parent_id ? null : (
+                <DropdownMenuItem
+                  onClick={() => {
+                    navigate(category.id.toString())
+                    handleGetCategories(category.id.toString())
+                  }}
+                >
+                  <ShareIcon />
+                  زیر مجموعه‌ها
+                </DropdownMenuItem>
+              )}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
@@ -93,11 +109,12 @@ const Categories = () => {
     { field: "title", title: "عنوان" },
     { field: "status", title: "وضعیت" },
     { field: "showInMenu", title: "نمایش در منو" },
+    { field: "date", title: "ساخته شده در" },
     { field: "options", title: "عملیات" },
   ]
 
   useEffect(() => {
-    handleGetCategories()
+    handleGetCategories(params.categoryId || undefined)
   }, [])
 
   return (
@@ -106,6 +123,21 @@ const Categories = () => {
       tableDataHeader={tableDataHeader}
       searchTarget="title"
     >
+      {params.categoryId ? (
+        <Button
+          onClick={() => {
+            // If the windows was refreshed than it should behave correctly
+            if (window.history.length > 1) {
+              navigate(-1)
+            } else {
+              navigate("/shop/categories")
+            }
+            handleGetCategories()
+          }}
+        >
+          بازگشت
+        </Button>
+      ) : null}
       <ChangeForm />
     </TableCard>
   )

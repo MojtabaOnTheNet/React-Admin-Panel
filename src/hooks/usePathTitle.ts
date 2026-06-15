@@ -2,6 +2,10 @@ import { useReducer } from "react"
 
 export const usePathTitle = () => {
   const reducer = (state: string, action: { type: string }) => {
+    if (action.type.startsWith("/shop/categories/")) {
+      state = `زیر مجموعه‌های محصول شماره ${action.type.split("/").pop()}` // just get the number part
+      return state
+    }
     switch (action.type) {
       case "/shop/categories":
         state = "مدیریت گروه محصولات"
