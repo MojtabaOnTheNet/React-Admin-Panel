@@ -148,7 +148,7 @@ const TableCard = ({
           </TableBody>
         </Table>
       </Card>
-      {table.getPageCount() && tableData.length >= 2 ? (
+      {table.getPageCount() > 1 && tableData.length ? (
         <Pagination>
           <PaginationContent>
             <PaginationItem>
