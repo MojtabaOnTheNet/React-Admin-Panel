@@ -5,12 +5,14 @@ import "./index.css"
 import App from "./App.tsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import { BrowserRouter } from "react-router"
+import { Toaster } from "sonner"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider>
       <BrowserRouter>
         <App />
+        <Toaster expand={false} position="top-right" />
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>

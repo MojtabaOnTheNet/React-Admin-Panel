@@ -18,7 +18,7 @@ const TrendCards = () => {
           </div>
           <ShoppingBasket className="h-10 w-10" />
         </CardContent>
-        <div className="flex flex-col items-start justify-center gap-1 border-t-2 bg-mauve-800/50 p-3 px-5">
+        <div className="flex flex-col items-start justify-center gap-1 border-t-2 bg-secondary/50 p-3 px-5">
           <h1>13 در هفته گذشته</h1>
           <h1>18 در ماه گذشته</h1>
         </div>
@@ -32,7 +32,7 @@ const TrendCards = () => {
           </div>
           <ShoppingBag className="h-10 w-10" />
         </CardContent>
-        <div className="flex flex-col items-start justify-center gap-1 border-t-2 bg-mauve-800/50 p-3 px-5">
+        <div className="flex flex-col items-start justify-center gap-1 border-t-2 bg-secondary/50 p-3 px-5">
           <h1>9 در هفته گذشته</h1>
           <h1>16 در ماه گذشته</h1>
         </div>
@@ -46,7 +46,7 @@ const TrendCards = () => {
           </div>
           <ScrollText className="h-10 w-10" />
         </CardContent>
-        <div className="flex flex-col items-start justify-center gap-1 border-t-2 bg-mauve-800/50 p-3 px-5">
+        <div className="flex flex-col items-start justify-center gap-1 border-t-2 bg-secondary/50 p-3 px-5">
           <h1>263 در هفته گذشته</h1>
           <h1>1038 در ماه گذشته</h1>
         </div>
@@ -60,7 +60,7 @@ const TrendCards = () => {
           </div>
           <ShoppingBasket className="h-10 w-10" />
         </CardContent>
-        <div className="flex flex-col items-start justify-center gap-1 border-t-2 bg-mauve-800/50 p-3 px-5">
+        <div className="flex flex-col items-start justify-center gap-1 border-t-2 bg-secondary/50 p-3 px-5">
           <h1>3,000,000 در هفته گذشته</h1>
           <h1>9,000,000 در ماه گذشته</h1>
         </div>

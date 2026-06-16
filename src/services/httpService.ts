@@ -1,5 +1,19 @@
 import axios from "axios"
 import config from "./config.json"
+import { toast } from "sonner"
+
+axios.interceptors.response.use(
+  (response) => {
+    return response
+  },
+  (error) => {
+    toast.error(`مشکلی رخ داده (${error.response.status})`, {
+      duration: 2000,
+      id: "error-toast",
+    })
+    return Promise.reject(error)
+  }
+)
 
 const httpService = (
   url: string,

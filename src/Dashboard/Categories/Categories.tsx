@@ -15,6 +15,7 @@ import { useEffect, useState } from "react"
 import { getCategoriesService } from "@/services/category"
 import { useNavigate, useParams } from "react-router"
 import { dateToPersian } from "@/lib/utils"
+import { toast } from "sonner"
 
 const Categories = () => {
   const params = useParams()
@@ -34,12 +35,14 @@ const Categories = () => {
     try {
       const response = await getCategoriesService(categoryId)
       if (response.status == 200) {
+        toast.success("عملیات موفقیت آمیز بود", {
+          duration: 2000,
+          id: "success-toast",
+        })
         setData(response.data.data)
-      } else {
-        alert("Oh No! " + response.data.message)
       }
-    } catch (error) {
-      alert("Something went wrong! " + error)
+    } catch (error: any) {
+      console.log(error.message)
     }
   }
 

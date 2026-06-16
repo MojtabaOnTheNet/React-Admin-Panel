@@ -31,7 +31,7 @@ const Dashboard = () => {
       ) : isLogin ? (
         <SidebarProvider className="bg-muted p-2">
           <MainSidebar />
-          <SidebarInset className="flex w-full flex-col gap-4 rounded-xl bg-mauve-800 p-3 shadow-2xl">
+          <SidebarInset className="flex w-full flex-col gap-4 rounded-xl bg-secondary p-3 shadow-2xl">
             <Header />
             <main className="mx-5">
               <Routes>

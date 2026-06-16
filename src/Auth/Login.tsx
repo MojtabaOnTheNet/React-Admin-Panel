@@ -24,6 +24,7 @@ import { useState } from "react"
 import { Spinner } from "@/components/ui/spinner"
 import { Eye, EyeOff } from "lucide-react"
 import { loginService } from "@/services/auth"
+import { toast } from "sonner"
 
 const formSchema = z.object({
   phone: z.string().regex(/^\d{11}$/, {
@@ -52,6 +53,7 @@ const Login = () => {
     try {
       const response = await loginService(data)
       if (response.status == 200) {
+        toast.success("با موفقیت وارد شدید!")
         localStorage.setItem("loginToken", JSON.stringify(response.data.token))
         navigate("/")
       } else {

@@ -77,11 +77,9 @@ const ChangeForm = () => {
             return { id: parent.id, title: parent.title }
           })
         )
-      } else {
-        alert("Oh No! " + response.data.message)
       }
-    } catch (error) {
-      alert("Something went wrong! " + error)
+    } catch (error: any) {
+      console.log(error.message)
     }
   }
 
