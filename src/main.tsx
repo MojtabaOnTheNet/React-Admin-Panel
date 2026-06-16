@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")!).render(
     <ThemeProvider>
       <BrowserRouter>
         <App />
-        <Toaster expand={false} position="top-right" />
+        <Toaster position="top-right" />
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>

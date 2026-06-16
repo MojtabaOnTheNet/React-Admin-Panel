@@ -57,7 +57,7 @@ const TableCard = ({
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 2,
+    pageSize: 5,
   })
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

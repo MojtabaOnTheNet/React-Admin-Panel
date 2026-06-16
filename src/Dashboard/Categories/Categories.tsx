@@ -141,7 +141,7 @@ const Categories = () => {
           بازگشت
         </Button>
       ) : null}
-      <ChangeForm />
+      <ChangeForm handleGetCategories={handleGetCategories} />
     </TableCard>
   )
 }

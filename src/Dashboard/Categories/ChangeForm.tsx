@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Spinner } from "@/components/ui/spinner"
 import { useEffect, useState } from "react"
-import { getCategoriesService } from "@/services/category"
+import { getCategoriesService, postCategoryService } from "@/services/category"
 import {
   RHFFileUpload,
   RHFInput,
@@ -22,6 +22,7 @@ import {
   RHFSwitch,
   RHFTextarea,
 } from "@/components/RHFComponents/RHFComponents"
+import { toast } from "sonner"
 
 const formSchema = z.object({
   parent_id: z.number().optional(),
@@ -29,29 +30,26 @@ const formSchema = z.object({
   description: z.string().optional(),
   image: z
     .file()
-    .optional()
-    .refine(
-      (file) =>
-        !file || ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-      {
-        message: "فقط فایل‌های JPG، PNG و WEBP مجاز هستند",
-      }
+    .max(10 * 1024 * 1024, "حداکر حجم فایل ده مگابایت است")
+    .mime(
+      ["image/jpeg", "image/png", "image/webp"],
+      "لطفا عکس را در فرمت درست آپلود کنید"
     )
-    .refine(
-      (file) => !file || file.size <= 10 * 1024 * 1025, // 10 megabytes
-      {
-        message: "حداکثر حجم فایل 10 مگابایت است",
-      }
-    ),
-  is_active: z.boolean().optional(),
-  show_in_menu: z.boolean().optional(),
+    .optional(),
+  is_active: z.boolean(),
+  show_in_menu: z.boolean(),
 })
 
 export type categoryData = z.infer<typeof formSchema>
 
-const ChangeForm = () => {
+const ChangeForm = ({
+  handleGetCategories,
+}: {
+  handleGetCategories: (categoryId?: string | undefined) => Promise<void>
+}) => {
   type parentsType = { id: string; title: string }
   const [parents, setParents] = useState<parentsType[]>([])
+  const [open, setOpen] = useState(false)
   const form = useForm<categoryData>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
@@ -63,8 +61,19 @@ const ChangeForm = () => {
     },
   })
 
-  const onSubmit = (data: categoryData) => {
-    console.log(data)
+  const onSubmit = async (data: categoryData) => {
+    try {
+      const response = await postCategoryService(data)
+      console.log(response)
+      if (response.status == 200 || response.status == 201) {
+        toast.success("دسته بندی با موفقیت اضافه شد.")
+        form.reset()
+        handleGetCategories()
+        setOpen(false)
+      }
+    } catch (error: any) {
+      console.log(error.message)
+    }
   }
 
   const handleGetParentcategories = async () => {
@@ -88,7 +97,7 @@ const ChangeForm = () => {
   }, [])
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <form id="form-rhf" onSubmit={form.handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
           <Button className="text-md w-20 rounded-full bg-green-300 hover:bg-green-100">
