@@ -23,6 +23,7 @@ import {
   RHFTextarea,
 } from "@/components/RHFComponents/RHFComponents"
 import { toast } from "sonner"
+import { useParams } from "react-router"
 
 const formSchema = z.object({
   parent_id: z.number().optional(),
@@ -48,6 +49,7 @@ const ChangeForm = ({
   handleGetCategories: (categoryId?: string | undefined) => Promise<void>
 }) => {
   type parentsType = { id: string; title: string }
+  const params = useParams()
   const [parents, setParents] = useState<parentsType[]>([])
   const [open, setOpen] = useState(false)
   const form = useForm<categoryData>({
@@ -58,6 +60,7 @@ const ChangeForm = ({
       description: "",
       is_active: false,
       show_in_menu: false,
+      parent_id: Number(params.categoryId) || undefined,
     },
   })
 
@@ -68,7 +71,7 @@ const ChangeForm = ({
       if (response.status == 200 || response.status == 201) {
         toast.success("دسته بندی با موفقیت اضافه شد.")
         form.reset()
-        handleGetCategories()
+        handleGetCategories(params.categoryId || undefined)
         setOpen(false)
       }
     } catch (error: any) {
@@ -95,6 +98,13 @@ const ChangeForm = ({
   useEffect(() => {
     handleGetParentcategories()
   }, [])
+
+  useEffect(() => {
+    form.reset({
+      ...form.getValues(),
+      parent_id: Number(params.categoryId) || undefined,
+    })
+  }, [params.categoryId])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

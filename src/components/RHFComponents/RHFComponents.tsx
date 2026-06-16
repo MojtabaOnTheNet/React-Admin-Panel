@@ -100,6 +100,7 @@ type RHFSelectProps<T extends FieldValues> = {
   label: string
   options: Option[]
   placeholder?: string
+  defaultValue?: string
 }
 
 export function RHFSelect<T extends FieldValues>({

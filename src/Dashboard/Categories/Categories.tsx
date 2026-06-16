@@ -30,8 +30,10 @@ const Categories = () => {
   }
 
   const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const handleGetCategories = async (categoryId?: string) => {
+    setLoading(true)
     try {
       const response = await getCategoriesService(categoryId)
       if (response.status == 200) {
@@ -43,6 +45,8 @@ const Categories = () => {
       }
     } catch (error: any) {
       console.log(error.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -119,6 +123,36 @@ const Categories = () => {
   useEffect(() => {
     handleGetCategories(params.categoryId || undefined)
   }, [])
+
+  // Render not found if data array is empty
+  if (!loading && !tableData.length) {
+    return (
+      <div className="mt-10 flex w-full flex-col items-center justify-center gap-7">
+        <div className="flex w-full items-center justify-between gap-2">
+          <Button
+            className="mr-auto"
+            onClick={() => {
+              // If the windows was refreshed than it should behave correctly
+              navigate("/shop/categories")
+              handleGetCategories()
+            }}
+          >
+            بازگشت
+          </Button>
+          <ChangeForm
+            handleGetCategories={handleGetCategories.bind(
+              this,
+              params.categoryId || undefined
+            )}
+          />
+        </div>
+
+        <div className="mt-60 animate-pulse text-center text-4xl font-bold text-red-600">
+          هیج موردی یافت نشد!
+        </div>
+      </div>
+    )
+  }
 
   return (
     <TableCard
