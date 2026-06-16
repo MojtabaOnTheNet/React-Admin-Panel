@@ -51,7 +51,7 @@ const Categories = () => {
         <span
           className={category.show_in_menu ? "text-green-400" : "text-red-400"}
         >
-          {category.show_in_menu ? "فعال" : "غبرفعال"}
+          {category.show_in_menu ? "فعال" : "غیرفعال"}
         </span>
       ),
       showInMenu: (
