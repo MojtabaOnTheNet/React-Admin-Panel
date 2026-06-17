@@ -11,7 +11,7 @@ import { X } from "lucide-react"
 
 const HomeTableCard = () => {
   return (
-    <Card className="h-138.5 w-full">
+    <Card className="h-80 w-full lg:h-138.5">
       <CardTitle className="px-6">محصولات رو به اتمام</CardTitle>
       <Table className="overflow-hidden">
         <TableHeader>

@@ -8,7 +8,7 @@ import { ScrollText, ShoppingBag, ShoppingBasket } from "lucide-react"
 
 const TrendCards = () => {
   return (
-    <div className="flex items-center justify-center gap-5">
+    <div className="flex flex-col items-center justify-center gap-5 lg:flex-row">
       <Card className="mx-auto h-50 w-full max-w-sm">
         <CardContent className="flex items-center justify-between">
           <div className="flex flex-col gap-2">

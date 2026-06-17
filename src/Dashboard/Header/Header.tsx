@@ -38,14 +38,20 @@ const Header = () => {
   return (
     <header className="flex items-center justify-between border-b-2 pb-2">
       <SidebarTrigger className="cursor-pointer" />
-      <h1 className="text-5xl font-black">
-        <TypingAnimation blinkCursor={true} pauseDelay={2000}>
+      <h1 className="text-xl font-black lg:text-5xl">
+        <TypingAnimation
+          className="leading-tight"
+          blinkCursor={true}
+          pauseDelay={2000}
+        >
           {state}
         </TypingAnimation>
       </h1>
       <div className="w-55 text-center">
-        <h1 className="text-3xl font-bold text-blue-300">{weekDay}</h1>
-        <h1 className="text-1xl font-semibold text-blue-200">
+        <h1 className="text-lg font-bold text-blue-300 lg:text-3xl">
+          {weekDay}
+        </h1>
+        <h1 className="lg:text-1xl text-sm font-semibold text-blue-200">
           {clock || (
             <div className="mx-auto h-4 w-50 animate-pulse rounded-2xl bg-mauve-700"></div>
           )}

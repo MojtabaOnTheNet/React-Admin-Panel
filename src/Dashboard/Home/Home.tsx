@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <>
       <TrendCards />
-      <div className="mt-10 flex w-full items-center justify-end gap-7">
+      <div className="mt-10 flex w-full flex-col items-center justify-end gap-7 lg:flex-row">
         <HomeTableCard />
         <ChartCard />
       </div>

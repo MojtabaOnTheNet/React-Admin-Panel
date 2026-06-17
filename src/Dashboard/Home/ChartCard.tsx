@@ -57,7 +57,7 @@ const ChartCard = ({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-108 w-full">
+        <ChartContainer config={chartConfig} className="h-60 w-full lg:h-108">
           <AreaChart
             data={chartData}
             margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
