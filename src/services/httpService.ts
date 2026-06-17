@@ -17,7 +17,7 @@ axios.interceptors.response.use(
 
 const httpService = (
   url: string,
-  method: "GET" | "POST",
+  method: "GET" | "POST" | "PUT",
   data?: Object | null
 ) => {
   const tokenInfo = JSON.parse(localStorage.getItem("loginToken")!)

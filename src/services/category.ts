@@ -5,6 +5,10 @@ export const getCategoriesService = (id?: string | null) => {
   return httpService(`/admin/categories${id ? `?parent=${id}` : ""}`, "GET")
 }
 
+export const getCategoryService = (id: string) => {
+  return httpService(`/admin/categories/${id}`, "GET")
+}
+
 // Convert incoming data(including images) into formData and fix boolean fields
 function toCategoryFormData(data: categoryData) {
   const formData = new FormData()
@@ -12,7 +16,7 @@ function toCategoryFormData(data: categoryData) {
   formData.append("title", data.title)
 
   if (data.description) {
-    formData.append("description", data.description)
+    formData.append("descriptions", data.description)
   }
 
   if (data.parent_id) {
@@ -32,4 +36,8 @@ function toCategoryFormData(data: categoryData) {
 
 export const postCategoryService = (data: categoryData) => {
   return httpService("/admin/categories", "POST", toCategoryFormData(data))
+}
+
+export const updateCategoryService = (data: categoryData, id: string) => {
+  return httpService(`/admin/categories/${id}`, "PUT", toCategoryFormData(data))
 }

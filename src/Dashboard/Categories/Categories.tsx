@@ -31,6 +31,8 @@ const Categories = () => {
 
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [editId, setEditId] = useState<number | null>(null)
 
   const handleGetCategories = async (categoryId?: string) => {
     setLoading(true)
@@ -56,9 +58,9 @@ const Categories = () => {
       title: category.title,
       status: (
         <span
-          className={category.show_in_menu ? "text-green-400" : "text-red-400"}
+          className={category.is_active ? "text-green-400" : "text-red-400"}
         >
-          {category.show_in_menu ? "فعال" : "غیرفعال"}
+          {category.is_active ? "فعال" : "غیرفعال"}
         </span>
       ),
       showInMenu: (
@@ -82,7 +84,12 @@ const Categories = () => {
                 <PlusIcon />
                 اضافه
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setEditId(category.id)
+                  setOpen(true)
+                }}
+              >
                 <PencilIcon />
                 ویرایش
               </DropdownMenuItem>
@@ -144,6 +151,8 @@ const Categories = () => {
               this,
               params.categoryId || undefined
             )}
+            open={open}
+            setOpen={setOpen}
           />
         </div>
 
@@ -175,7 +184,21 @@ const Categories = () => {
           بازگشت
         </Button>
       ) : null}
-      <ChangeForm handleGetCategories={handleGetCategories} />
+      <Button
+        className="text-md w-20 rounded-full bg-green-300 hover:bg-green-100"
+        onClick={() => {
+          setOpen(true)
+          setEditId(null)
+        }}
+      >
+        اضافه
+      </Button>
+      <ChangeForm
+        handleGetCategories={handleGetCategories}
+        open={open}
+        setOpen={setOpen}
+        editId={editId}
+      />
     </TableCard>
   )
 }

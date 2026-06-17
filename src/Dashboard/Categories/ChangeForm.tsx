@@ -5,7 +5,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { Field, FieldGroup } from "@/components/ui/field"
 import { Button } from "@/components/ui/button"
@@ -14,7 +13,12 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Spinner } from "@/components/ui/spinner"
 import { useEffect, useState } from "react"
-import { getCategoriesService, postCategoryService } from "@/services/category"
+import {
+  getCategoriesService,
+  getCategoryService,
+  postCategoryService,
+  updateCategoryService,
+} from "@/services/category"
 import {
   RHFFileUpload,
   RHFInput,
@@ -45,13 +49,18 @@ export type categoryData = z.infer<typeof formSchema>
 
 const ChangeForm = ({
   handleGetCategories,
+  open,
+  setOpen,
+  editId,
 }: {
   handleGetCategories: (categoryId?: string | undefined) => Promise<void>
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  editId?: number | null
 }) => {
   type parentsType = { id: string; title: string }
   const params = useParams()
   const [parents, setParents] = useState<parentsType[]>([])
-  const [open, setOpen] = useState(false)
   const form = useForm<categoryData>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
@@ -66,10 +75,11 @@ const ChangeForm = ({
 
   const onSubmit = async (data: categoryData) => {
     try {
-      const response = await postCategoryService(data)
-      console.log(response)
+      const response = editId
+        ? await updateCategoryService(data, String(editId))
+        : await postCategoryService(data)
       if (response.status == 200 || response.status == 201) {
-        toast.success("دسته بندی با موفقیت اضافه شد.")
+        toast.success(`دسته بندی با موفقیت ${editId ? "ویرایش" : "اضافه"} شد.`)
         form.reset()
         handleGetCategories(params.categoryId || undefined)
         setOpen(false)
@@ -106,17 +116,40 @@ const ChangeForm = ({
     })
   }, [params.categoryId])
 
+  useEffect(() => {
+    if (!editId) {
+      form.reset({
+        title: "",
+        description: "",
+        image: undefined,
+        is_active: false,
+        show_in_menu: false,
+        parent_id: Number(params.categoryId) || undefined,
+      })
+      return
+    }
+    const loadCategory = async () => {
+      const response = await getCategoryService(String(editId))
+      console.log(response)
+      form.reset({
+        title: response.data.data.title,
+        description: response.data.data.descriptions ?? "",
+        is_active: !!response.data.data.is_active, // !! to turn number into boolean
+        show_in_menu: !!response.data.data.show_in_menu,
+        parent_id: response.data.data.parent_id ?? undefined,
+      })
+    }
+    loadCategory()
+  }, [editId])
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <form id="form-rhf" onSubmit={form.handleSubmit(onSubmit)}>
-        <DialogTrigger asChild>
-          <Button className="text-md w-20 rounded-full bg-green-300 hover:bg-green-100">
-            اضافه
-          </Button>
-        </DialogTrigger>
         <DialogContent className="p-7 sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>افزودن دسته محصولات</DialogTitle>
+            <DialogTitle>
+              {editId ? "ویرایش دسته محصولات" : "افزودن دسته محصولات"}
+            </DialogTitle>
           </DialogHeader>
           <FieldGroup>
             {parents.length ? (
@@ -125,7 +158,7 @@ const ChangeForm = ({
                   control={form.control}
                   name="parent_id"
                   label="دسته والد"
-                  placeholder="انتخاب دسته"
+                  placeholder="انتخاب دسته والد"
                   options={parents.map((parent) => ({
                     value: parent.id,
                     label: parent.title,
@@ -149,13 +182,15 @@ const ChangeForm = ({
                 placeholder="توضیحات دسته"
               />
             </Field>
-            <Field>
-              <RHFFileUpload
-                control={form.control}
-                name="image"
-                label="آپلود تصویر"
-              />
-            </Field>
+            {!editId && (
+              <Field>
+                <RHFFileUpload
+                  control={form.control}
+                  name="image"
+                  label="آپلود تصویر"
+                />
+              </Field>
+            )}
           </FieldGroup>
           <DialogFooter>
             <RHFSwitch
@@ -176,7 +211,13 @@ const ChangeForm = ({
               type="submit"
               form="form-rhf"
             >
-              {form.formState.isSubmitting ? <Spinner /> : "ذخیره"}
+              {form.formState.isSubmitting ? (
+                <Spinner />
+              ) : editId ? (
+                "ویرایش"
+              ) : (
+                "ذخیره"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
