@@ -28,6 +28,7 @@ import {
 } from "@/components/RHFComponents/RHFComponents"
 import { toast } from "sonner"
 import { useParams } from "react-router"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 const formSchema = z.object({
   parent_id: z.number().optional(),
@@ -157,58 +158,62 @@ const ChangeForm = ({
               {editId ? "ویرایش دسته محصولات" : "افزودن دسته محصولات"}
             </DialogTitle>
           </DialogHeader>
-          <FieldGroup>
-            {parents.length ? (
+          <ScrollArea dir="rtl" className="max-h-[50vh] px-3 lg:max-h-full">
+            <FieldGroup className="pb-6">
+              {parents.length ? (
+                <Field>
+                  <RHFSelect
+                    control={form.control}
+                    name="parent_id"
+                    label="دسته والد"
+                    placeholder="انتخاب دسته والد"
+                    options={parents.map((parent) => ({
+                      value: parent.id,
+                      label: parent.title,
+                    }))}
+                  />
+                </Field>
+              ) : null}
               <Field>
-                <RHFSelect
+                <RHFInput
                   control={form.control}
-                  name="parent_id"
-                  label="دسته والد"
-                  placeholder="انتخاب دسته والد"
-                  options={parents.map((parent) => ({
-                    value: parent.id,
-                    label: parent.title,
-                  }))}
+                  name="title"
+                  label="عنوان"
+                  placeholder="عنوان دسته"
                 />
               </Field>
-            ) : null}
-            <Field>
-              <RHFInput
-                control={form.control}
-                name="title"
-                label="عنوان"
-                placeholder="عنوان دسته"
-              />
-            </Field>
-            <Field>
-              <RHFTextarea
-                control={form.control}
-                name="description"
-                label="توضیحات"
-                placeholder="توضیحات دسته"
-              />
-            </Field>
-            {!editId && (
               <Field>
-                <RHFFileUpload
+                <RHFTextarea
                   control={form.control}
-                  name="image"
-                  label="آپلود تصویر"
+                  name="description"
+                  label="توضیحات"
+                  placeholder="توضیحات دسته"
                 />
               </Field>
-            )}
-          </FieldGroup>
+              {!editId && (
+                <Field>
+                  <RHFFileUpload
+                    control={form.control}
+                    name="image"
+                    label="آپلود تصویر"
+                  />
+                </Field>
+              )}
+              <Field className="grid grid-cols-2">
+                <RHFSwitch
+                  control={form.control}
+                  name="is_active"
+                  label="وضعیت فعال"
+                />
+                <RHFSwitch
+                  control={form.control}
+                  name="show_in_menu"
+                  label="نمایش در منو"
+                />
+              </Field>
+            </FieldGroup>
+          </ScrollArea>
           <DialogFooter>
-            <RHFSwitch
-              control={form.control}
-              name="is_active"
-              label="وضعیت فعال"
-            />
-            <RHFSwitch
-              control={form.control}
-              name="show_in_menu"
-              label="نمایش در منو"
-            />
             <DialogClose asChild>
               <Button variant="outline">انصراف</Button>
             </DialogClose>
