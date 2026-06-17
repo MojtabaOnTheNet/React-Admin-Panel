@@ -41,3 +41,7 @@ export const postCategoryService = (data: categoryData) => {
 export const updateCategoryService = (data: categoryData, id: string) => {
   return httpService(`/admin/categories/${id}`, "PUT", toCategoryFormData(data))
 }
+
+export const deleteCategoryService = (id: string) => {
+  return httpService(`/admin/categories/${id}`, "DELETE")
+}

@@ -79,7 +79,13 @@ const ChangeForm = ({
         ? await updateCategoryService(data, String(editId))
         : await postCategoryService(data)
       if (response.status == 200 || response.status == 201) {
-        toast.success(`دسته بندی با موفقیت ${editId ? "ویرایش" : "اضافه"} شد.`)
+        toast.success(
+          `دسته بندی با موفقیت ${editId ? "ویرایش" : "اضافه"} شد.`,
+          {
+            duration: 2000,
+            id: "success-toast",
+          }
+        )
         form.reset()
         handleGetCategories(params.categoryId || undefined)
         setOpen(false)

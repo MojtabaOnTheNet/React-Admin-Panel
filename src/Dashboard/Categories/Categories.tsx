@@ -12,10 +12,14 @@ import {
 import { PencilIcon, PlusIcon, ShareIcon, TrashIcon } from "lucide-react"
 import TableCard from "@/components/ui/TableCard"
 import { useEffect, useState } from "react"
-import { getCategoriesService } from "@/services/category"
+import {
+  deleteCategoryService,
+  getCategoriesService,
+} from "@/services/category"
 import { useNavigate, useParams } from "react-router"
 import { dateToPersian } from "@/lib/utils"
 import { toast } from "sonner"
+import DeleteAlertDialog from "@/components/ui/DeleteAlertDialog"
 
 const Categories = () => {
   const params = useParams()
@@ -32,6 +36,8 @@ const Categories = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
   const [editId, setEditId] = useState<number | null>(null)
 
   const handleGetCategories = async (categoryId?: string) => {
@@ -39,16 +45,27 @@ const Categories = () => {
     try {
       const response = await getCategoriesService(categoryId)
       if (response.status == 200) {
-        toast.success("عملیات موفقیت آمیز بود", {
-          duration: 2000,
-          id: "success-toast",
-        })
         setData(response.data.data)
       }
     } catch (error: any) {
       console.log(error.message)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleDeleteCategory = async (categoryId: string) => {
+    try {
+      const response = await deleteCategoryService(categoryId)
+      if (response.status == 200) {
+        handleGetCategories(params.categoryId || undefined)
+        toast.success("دسته بندی با موفقیت حذف شد.", {
+          duration: 2000,
+          id: "success-toast",
+        })
+      }
+    } catch (error: any) {
+      console.log(error.message)
     }
   }
 
@@ -107,7 +124,13 @@ const Categories = () => {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem variant="destructive">
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={() => {
+                  setDeleteOpen(true)
+                  setDeleteId(String(category.id))
+                }}
+              >
                 <TrashIcon />
                 حذف
               </DropdownMenuItem>
@@ -145,6 +168,15 @@ const Categories = () => {
             }}
           >
             بازگشت
+          </Button>
+          <Button
+            className="text-md w-20 rounded-full bg-green-300 hover:bg-green-100"
+            onClick={() => {
+              setOpen(true)
+              setEditId(null)
+            }}
+          >
+            اضافه
           </Button>
           <ChangeForm
             handleGetCategories={handleGetCategories.bind(
@@ -198,6 +230,13 @@ const Categories = () => {
         open={open}
         setOpen={setOpen}
         editId={editId}
+      />
+      <DeleteAlertDialog
+        open={deleteOpen}
+        setOpen={setDeleteOpen}
+        title="حذف دسته‌بندی؟"
+        description="این عملیات بازگشت پذیر نمی‌باشد."
+        action={handleDeleteCategory.bind(this, deleteId!)}
       />
     </TableCard>
   )
